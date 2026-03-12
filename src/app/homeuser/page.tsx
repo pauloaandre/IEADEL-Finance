@@ -1,6 +1,6 @@
 "use client";
 import Head from "next/head";
-import NavBarUser from "@/components/navbaruser";
+import NavBar from "@/components/navbar";
 import YearSelector from "@/components/yearselector";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -63,7 +63,7 @@ export default function HomeUser() {
 				<title>Home</title>
 			</Head>
 			<div>
-				<NavBarUser />
+				<NavBar />
 				<YearSelector
                     initialYear={ano}
                     onChange={(novoAno) => {

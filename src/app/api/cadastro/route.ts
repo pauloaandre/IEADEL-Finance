@@ -11,19 +11,32 @@ export async function POST(req: Request) {
       body: JSON.stringify(body),
     });
 
+    const responseText = await res.text();
+
     if (!res.ok) {
+      let errorMsg = "Falha no cadastro";
+      try {
+        const errorData = JSON.parse(responseText);
+        errorMsg = errorData.error || errorMsg;
+      } catch (e) {
+        errorMsg = responseText || errorMsg;
+      }
+
       return NextResponse.json(
-        { error: "Falha no cadastro", status: res.status },
+        { error: errorMsg, status: res.status },
         { status: res.status }
       );
     }
 
-    const data = await res.json();
-    return NextResponse.json(data, { status: res.status });
-
+    try {
+        const data = JSON.parse(responseText);
+        return NextResponse.json(data, { status: res.status });
+    } catch (e) {
+        return NextResponse.json({ message: responseText }, { status: res.status });
+    }
 
   } catch (error) {
-    console.error("Erro no proxy:", error);
+    console.error("Erro no proxy de cadastro:", error);
     return NextResponse.json(
       { error: "Erro ao conectar com API" },
       { status: 500 }

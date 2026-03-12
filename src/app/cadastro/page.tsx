@@ -39,15 +39,23 @@ export default function Home() {
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
 
+        // Formata o nome para Capitalize (Primeira Letra de Cada Nome Maiúscula)
+        const nomeFormatado = nome
+            .toLowerCase()
+            .split(" ")
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+
         const res = await fetch("/api/cadastro", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nome, email, senha, idCongregacao }),
+        body: JSON.stringify({ nome: nomeFormatado, email, senha, idCongregacao }),
         });
         const data = await res.json();
         console.log(data);
         if (res.ok) {
-            router.push("/");
+            localStorage.setItem("userEmail", email);
+            router.push("/verificar");
         } else {
             if(data?.error) {
                 setErro("Esse email já existe.")

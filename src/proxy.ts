@@ -9,7 +9,7 @@ interface TokenPayload {
   exp: number;
 }
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
 
   if (!token) {
