@@ -15,12 +15,13 @@ export default function DizimoModal({ onSuccess }: DizimoModalProps) {
   const [valor, setValor] = useState("");
   const [data, setData] = useState(hoje);
   const [sugestoes, setSugestoes] = useState<Pessoa[]>([]);
+  const [isVisitante, setIsVisitante] = useState(false);
 
   async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const valorInput = e.target.value;
     setDescricao(valorInput);
 
-    if (valorInput.length > 2) {
+    if (!isVisitante && valorInput.length > 2) {
       const res = await fetch(`/api/usuario?query=${valorInput}`);
       const data: Pessoa[] = await res.json();
       setSugestoes(data);
@@ -38,13 +39,17 @@ export default function DizimoModal({ onSuccess }: DizimoModalProps) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const payload = {
+    const payload: any = {
       descricao,
       valor: Number(valor) || 0,
       data,
-      usuarioId: id_usuario,
       tipo: "DIZIMO",
+      isVisitante: isVisitante,
     };
+
+    if (!isVisitante) {
+      payload.usuarioId = id_usuario;
+    }
 
     console.log("Dízimo enviado:", payload);
 
@@ -57,8 +62,10 @@ export default function DizimoModal({ onSuccess }: DizimoModalProps) {
     if (res.ok) {
         setDescricao("");
         setValor("");
-        setData("");
+        setData(hoje);
         setSugestoes([]);
+        setIdUsuario(null);
+        setIsVisitante(false);
         setIsOpen(false);
         if (onSuccess) onSuccess();
     } else {
@@ -81,16 +88,17 @@ export default function DizimoModal({ onSuccess }: DizimoModalProps) {
           <div className="bg-white rounded-lg shadow-xl p-6 w-96 relative">
             <h2 className="text-xl font-bold mb-4">Novo Dízimo</h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-1">
               <div className="relative">
                 <input
                   type="text"
                   value={descricao}
                   onChange={handleChange}
-                  placeholder="Nome da pessoa"
+                  placeholder={isVisitante ? "Nome do visitante" : "Nome da pessoa"}
                   className="border p-2 w-full"
+                  required
                 />
-                {sugestoes.length > 0 && (
+                {!isVisitante && sugestoes.length > 0 && (
                   <ul className="absolute z-10 bg-white border w-full max-h-40 overflow-y-auto">
                     {sugestoes.map((p) => (
                       <li
@@ -104,6 +112,22 @@ export default function DizimoModal({ onSuccess }: DizimoModalProps) {
                   </ul>
                 )}
               </div>
+              <div className="flex items-center gap-2 mb-3">
+                <input
+                  type="checkbox"
+                  id="visitante"
+                  checked={isVisitante}
+                  onChange={(e) => {
+                    setIsVisitante(e.target.checked);
+                    if (e.target.checked) {
+                      setIdUsuario(null);
+                      setSugestoes([]);
+                    }
+                  }}
+                  className="w-4 h-4 cursor-pointer"
+                />
+                <label htmlFor="visitante" className="text-sm font-medium cursor-pointer">Não é membro (Visitante)</label>
+              </div>
 
               <input
                 type="number"
@@ -112,7 +136,8 @@ export default function DizimoModal({ onSuccess }: DizimoModalProps) {
                 step="0.01"
                 placeholder="R$ 0,00"
                 onChange={(e) => setValor(e.target.value)}
-                className="border p-2 w-full"
+                className="border p-2 w-full mb-3"
+                required
               />
 
               <input
@@ -120,6 +145,7 @@ export default function DizimoModal({ onSuccess }: DizimoModalProps) {
                 value={data}
                 onChange={(e) => setData(e.target.value)}
                 className="border p-2 w-full"
+                required
               />
 
               <div className="flex justify-end gap-2">

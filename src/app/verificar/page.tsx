@@ -84,35 +84,13 @@ export default function VerificarPage() {
                                 />
                             </div>
                         )}
-
-                        <div>
-                            <input
-                                type="text"
-                                value={codigo}
-                                onChange={(e) => setCodigo(e.target.value)}
-                                placeholder="Código de 6 dígitos"
-                                className="w-full p-2 border text-center text-2xl tracking-[0.5em] font-bold placeholder-[#383838] ring-[#6d6d6d] ring-1 rounded-md focus:ring-2 focus:ring-blue-500"
-                                required
-                                maxLength={6}
-                            />
-                        </div>
-
-                        {erro && <span className="text-red-500 text-sm text-center font-medium">{erro}</span>}
-
-                        <button
-                            type="submit"
-                            disabled={carregando}
-                            className={`bg-blue-600 text-white text-xl cursor-pointer py-2 rounded-md hover:bg-blue-700 transition font-semibold ${carregando ? 'opacity-50 cursor-not-allowed' : ''}`}
-                        >
-                            {carregando ? "Validando..." : "Validar Conta"}
-                        </button>
                         
                         <div className="flex flex-col gap-2 mt-2">
                             <p className="text-center text-sm">
                                 Não recebeu o código? <button type="button" className="text-blue-600 underline">Reenviar</button>
                             </p>
-                            <Link href="/cadastro" className="text-center text-sm text-gray-500 underline">
-                                Voltar para o cadastro
+                            <Link href="/" className="text-center text-sm text-gray-500 underline">
+                                Voltar para tela de login
                             </Link>
                         </div>
                     </form>

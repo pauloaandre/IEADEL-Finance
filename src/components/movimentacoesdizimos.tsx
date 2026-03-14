@@ -152,7 +152,7 @@ export default function Movimentacoes({
                                         <td className="px-4 py-2 border">
                                             {String(parseDateLocal(d.data).getDate()).padStart(2, "0")}
                                         </td>
-                                        <td className="px-4 py-2 border">{d.nomeUsuario || d.descricao}</td>
+                                        <td className="px-4 py-2 border">{d.descricao}</td>
                                         <td className="px-4 py-2 border">
                                             R$ {d.valor.toFixed(2).replace(".", ",")}
                                         </td>
