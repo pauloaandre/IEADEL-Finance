@@ -5,6 +5,7 @@ import Head from "next/head";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
 
 interface Congregacao {
     idCongregacao: string;
@@ -14,6 +15,7 @@ interface Congregacao {
 export default function Home() {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
+    const [showSenha, setShowSenha] = useState(false);
     const [nome, setNome] = useState("");
     const [erro, setErro] = useState("");
     const router = useRouter();
@@ -140,15 +142,22 @@ export default function Home() {
                             </select>
                         </div>
 
-                        <div>
+                        <div className="relative">
                             <input
-                            type="password"
+                            type={showSenha ? "text" : "password"}
                             value={senha}
                             onChange={(e) => setSenha(e.target.value)}
                             placeholder="Criar senha"
                             className="w-full p-2 border text-xl placeholder-[#383838] rounded-md ring-[#6d6d6d] ring-1 focus:ring-2 focus:ring-blue-500"
                             required
                             />
+                            <button
+                                type="button"
+                                onClick={() => setShowSenha(!showSenha)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                            >
+                                {showSenha ? <EyeOff size={24} /> : <Eye size={24} />}
+                            </button>
                         </div>
 
                         <button

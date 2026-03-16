@@ -1,13 +1,14 @@
 "use client"; 
 import Link from "next/link";
 import Image from "next/image";
-
+import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function NavBar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [nome, setNome] = useState("");
     const [perfil, setPerfil] = useState("");
+    const pathname = usePathname();
 
     async function handleLogout() {
         await fetch("/api/logout", { method: "POST" });
@@ -28,7 +29,7 @@ export default function NavBar() {
     return (
         <div className="flex w-full py-1 shadow-md">
             <div className="flex flex-row justify-between items-center m-4 w-full relative">
-                <Link href={perfil === "ADMIN" ? "/homeadmin" : (perfil === "USER" ? "/homeuser" : "/")}>
+                <Link href={perfil === "SUPER_ADMIN" ? "/homesuperadmin" : (perfil === "ADMIN" ? "/homeadmin" : (perfil === "USER" ? "/homeuser" : "/"))}>
                     <Image 
                         src="/logo.png"
                         alt="Logo"
@@ -37,7 +38,9 @@ export default function NavBar() {
                     />
                 </Link>
 
-                <h1 className="text-center font-semibold text-sm md:text-xl px-2">Bem-vindo, {nome ? nome : "Visitante"}</h1>
+                {pathname === "/homeuser" && (
+                    <h1 className="text-center font-semibold text-sm md:text-xl px-2">Bem-vindo, {nome ? nome : "Visitante"}</h1>
+                )}
 
                 <div className="relative">
                     <button 
@@ -62,6 +65,15 @@ export default function NavBar() {
                             >
                                 Meu Perfil
                             </Link>
+                            {perfil === "SUPER_ADMIN" && (
+                                <Link 
+                                    href="/homesuperadmin" 
+                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    Dashboard Super
+                                </Link>
+                            )}
                             {perfil === "ADMIN" && (
                                 <Link 
                                     href="/homeadmin" 

@@ -15,13 +15,13 @@ export default function DizimoModal({ onSuccess }: DizimoModalProps) {
   const [valor, setValor] = useState("");
   const [data, setData] = useState(hoje);
   const [sugestoes, setSugestoes] = useState<Pessoa[]>([]);
-  const [isVisitante, setIsVisitante] = useState(false);
 
   async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const valorInput = e.target.value;
     setDescricao(valorInput);
+    setIdUsuario(null);
 
-    if (!isVisitante && valorInput.length > 2) {
+    if (valorInput.length > 2) {
       const res = await fetch(`/api/usuario?query=${valorInput}`);
       const data: Pessoa[] = await res.json();
       setSugestoes(data);
@@ -44,12 +44,9 @@ export default function DizimoModal({ onSuccess }: DizimoModalProps) {
       valor: Number(valor) || 0,
       data,
       tipo: "DIZIMO",
-      isVisitante: isVisitante,
+      isVisitante: id_usuario === null,
+      usuarioId: id_usuario,
     };
-
-    if (!isVisitante) {
-      payload.usuarioId = id_usuario;
-    }
 
     console.log("Dízimo enviado:", payload);
 
@@ -65,7 +62,6 @@ export default function DizimoModal({ onSuccess }: DizimoModalProps) {
         setData(hoje);
         setSugestoes([]);
         setIdUsuario(null);
-        setIsVisitante(false);
         setIsOpen(false);
         if (onSuccess) onSuccess();
     } else {
@@ -94,11 +90,11 @@ export default function DizimoModal({ onSuccess }: DizimoModalProps) {
                   type="text"
                   value={descricao}
                   onChange={handleChange}
-                  placeholder={isVisitante ? "Nome do visitante" : "Nome da pessoa"}
+                  placeholder="Nome da pessoa"
                   className="border p-2 w-full"
                   required
                 />
-                {!isVisitante && sugestoes.length > 0 && (
+                {sugestoes.length > 0 && (
                   <ul className="absolute z-10 bg-white border w-full max-h-40 overflow-y-auto">
                     {sugestoes.map((p) => (
                       <li
@@ -111,22 +107,6 @@ export default function DizimoModal({ onSuccess }: DizimoModalProps) {
                     ))}
                   </ul>
                 )}
-              </div>
-              <div className="flex items-center gap-2 mb-3">
-                <input
-                  type="checkbox"
-                  id="visitante"
-                  checked={isVisitante}
-                  onChange={(e) => {
-                    setIsVisitante(e.target.checked);
-                    if (e.target.checked) {
-                      setIdUsuario(null);
-                      setSugestoes([]);
-                    }
-                  }}
-                  className="w-4 h-4 cursor-pointer"
-                />
-                <label htmlFor="visitante" className="text-sm font-medium cursor-pointer">Não é membro (Visitante)</label>
               </div>
 
               <input

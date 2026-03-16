@@ -34,6 +34,7 @@ export default function EditDizimoModal({ isOpen, onClose, onSuccess, dizimo }: 
   async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const valorInput = e.target.value;
     setDescricao(valorInput);
+    setIdUsuario(null);
 
     if (valorInput.length > 1) {
       const res = await fetch(`/api/usuario?query=${valorInput}`);
@@ -56,12 +57,13 @@ export default function EditDizimoModal({ isOpen, onClose, onSuccess, dizimo }: 
 
     try {
       setLoading(true);
-      const payload = {
+      const payload: any = {
         descricao,
         valor: Number(valor) || 0,
         data,
         usuarioId: id_usuario,
         tipo: "DIZIMO",
+        isVisitante: id_usuario === null,
       };
 
       const res = await fetch(`/api/movimentacoes/${dizimo.id}`, {
