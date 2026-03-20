@@ -35,6 +35,37 @@ export default function GerarRelatorio() {
   const [ofertas, setOfertas] = useState<Movimentacao[]>([]);
   const [despesas, setDespesas] = useState<Movimentacao[]>([]);
   const [loading, setLoading] = useState(false);
+  const [nomeCongregacao, setNomeCongregacao] = useState("Carregando...");
+
+  useEffect(() => {
+    const fetchCongregacao = async () => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        let idCongregacao = params.get("id");
+
+        if (!idCongregacao) {
+          const userData = localStorage.getItem("user");
+          if (userData) {
+            idCongregacao = JSON.parse(userData).idCongregacao;
+          }
+        }
+
+        if (idCongregacao) {
+          const res = await fetch(`/api/congregacao/${idCongregacao}`);
+          if (res.ok) {
+            const data = await res.json();
+            setNomeCongregacao(data.nome.toUpperCase());
+          }
+        } else {
+          setNomeCongregacao("CONGREGAÇÃO NÃO IDENTIFICADA");
+        }
+      } catch (error) {
+        console.error("Erro ao buscar nome da congregação:", error);
+      }
+    };
+
+    fetchCongregacao();
+  }, []);
 
   const fetchRelatorioData = async (m: number, a: number) => {
     setLoading(true);
@@ -273,7 +304,7 @@ export default function GerarRelatorio() {
 
         {/* PAGE 1: RECEITA */}
         <div className="page">
-          <h1>IGREJA EVANGÉLICA ASSEMBLEIA DE DEUS EL-SHADDAI PIÇARREIRA</h1>
+          <h1>IGREJA EVANGÉLICA ASSEMBLEIA DE DEUS {nomeCongregacao}</h1>
           <h3>RECEITA MÊS: {mesesNomes[mes - 1]} {ano}</h3>
 
           <table>
@@ -319,7 +350,7 @@ export default function GerarRelatorio() {
 
         {/* PAGE 2: DIZIMOS */}
         <div className="page">
-          <h1>IGREJA EVANGÉLICA ASSEMBLEIA DE DEUS EL-SHADDAI PIÇARREIRA</h1>
+          <h1>IGREJA EVANGÉLICA ASSEMBLEIA DE DEUS {nomeCongregacao}</h1>
           <h3>DÍZIMOS - MÊS: {mesesNomes[mes - 1]} {ano}</h3>
 
           <table>
@@ -354,7 +385,7 @@ export default function GerarRelatorio() {
 
         {/* PAGE 3: OFERTAS */}
         <div className="page">
-          <h1>IGREJA EVANGÉLICA ASSEMBLEIA DE DEUS EL-SHADDAI PIÇARREIRA</h1>
+          <h1>IGREJA EVANGÉLICA ASSEMBLEIA DE DEUS {nomeCongregacao}</h1>
           <h3>OFERTAS - MÊS: {mesesNomes[mes - 1]} {ano}</h3>
 
           <table>
@@ -391,7 +422,7 @@ export default function GerarRelatorio() {
 
         {/* PAGE 4: SAÍDAS */}
         <div className="page">
-          <h1>IGREJA EVANGÉLICA ASSEMBLEIA DE DEUS EL-SHADDAI PIÇARREIRA</h1>
+          <h1>IGREJA EVANGÉLICA ASSEMBLEIA DE DEUS {nomeCongregacao}</h1>
           <h3>SAÍDAS MÊS: {mesesNomes[mes - 1]} {ano}</h3>
 
           <table className="saidas-table">
