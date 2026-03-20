@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { url } from "@/components/variavel";
 import { cookies } from "next/headers";
+import { NextRequest } from "next/server";
 
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const cookieStore = await cookies();
