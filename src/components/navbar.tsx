@@ -86,14 +86,16 @@ export default function NavBar() {
                                         Dashboard
                                     </Link>
                                     
-                                    <Link 
-                                        href="/homeuser" 
-                                        className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-slate-50 rounded-lg transition-colors"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        <Wallet className="w-4 h-4 text-gray-400" />
-                                        Meus Dízimos
-                                    </Link>
+                                    {perfil !== "SUPER_ADMIN" && (
+                                        <Link 
+                                            href="/homeuser" 
+                                            className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-slate-50 rounded-lg transition-colors"
+                                            onClick={() => setIsMenuOpen(false)}
+                                        >
+                                            <Wallet className="w-4 h-4 text-gray-400" />
+                                            Meus Dízimos
+                                        </Link>
+                                    )}
 
                                     <Link 
                                         href="/perfil" 

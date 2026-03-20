@@ -131,6 +131,33 @@ export default function GerarRelatorio() {
             background-color: #f0f0f0;
             color: #333;
             padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+
+          @media screen and (max-width: 21cm) {
+            .report-container {
+              padding: 10px 5px;
+            }
+            .page {
+              width: 100% !important;
+              max-width: 98vw;
+              min-height: auto !important;
+              padding: 5vw !important;
+              margin: 10px auto !important;
+            }
+            /* Ajuste de escala para textos no mobile */
+            h1, h2 { font-size: 3.5vw !important; }
+            h3 { font-size: 3vw !important; }
+            th { font-size: 2.5vw !important; padding: 1.5vw !important; }
+            td { font-size: 2.2vw !important; padding: 1.5vw !important; }
+            .saldo-geral-box { font-size: 3.5vw !important; padding: 2.5vw !important; }
+            .footer-date { font-size: 2.5vw !important; }
+            .signature-box { width: 80% !important; }
+            .signature-line { width: 70% !important; }
+            .col-val { width: 20% !important; }
+            .col-sq { width: 8% !important; }
           }
 
           @media screen {
@@ -140,7 +167,7 @@ export default function GerarRelatorio() {
               padding: 1.5cm;
               margin: 1cm auto;
               background: white;
-              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+              box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
               box-sizing: border-box;
             }
           }
