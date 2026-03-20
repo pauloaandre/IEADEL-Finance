@@ -67,88 +67,109 @@ export default function HomeAdmin() {
             <Head>
                 <title>Home</title>
             </Head>
-            <div>
+            <div className="min-h-screen bg-slate-50 pb-10">
                 <NavBar />
-                <MonthSelector
-                    initialMonth={mes}
-                    initialYear={ano}
-                    onChange={(novoMes, novoAno) => {
-                        setMes(novoMes);
-                        setAno(novoAno);
-                    }}
-                />
-                <div className="flex flex-col items-center font-medium w-full md:mt-14 mt-10 md:gap-20 gap-8">
-                    <div className="flex flex-row justify-center md:gap-30 gap-10 md:w-full w-90">
-                        <section className="flex bg-[#008eff] md:py-8 py-5 px-2 w-40 rounded-sm md:w-1/3">
-                            <Link className="w-full flex justify-center items-center gap-4" href="/dizimos">
-                                <div className="flex flex-col md:items-center">
-                                    <h1 className="text-xl md:text-3xl text-center text-white">Dízimos</h1>
-                                    <span className="text-[#004781] md:text-base text-sm">{formatBRL(dizimo)}</span>
-                                </div>
-                                <Image
-                                    alt="Símbolo financeiro"
-                                    src="/dizimo.png"
-                                    width={40}
-                                    height={40}
-                                    className="md:w-1/7 md:ml-6"
-                                >
-                                </Image>
-                            </Link>
-                        </section>
-                        <section className="flex gap-4 bg-[#f5dd02] md:py-8 py-5 px-2 w-40 rounded-sm md:w-1/3">
-                            <Link className="w-full flex justify-center items-center gap-4" href="/ofertas">
-                                <div className="flex flex-col">
-                                    <h1 className="text-xl md:text-3xl text-center text-white">Ofertas</h1>
-                                    <span className="text-[#9c8d00] text-center md:text-base text-sm">{formatBRL(oferta)}</span>
-                                </div>
-                                <Image
-                                    alt="Símbolo financeiro"
-                                    src="/oferta.png"
-                                    width={40}
-                                    height={40}
-                                    className="md:w-1/7 md:ml-4"
-                                >
-                                </Image>
-                            </Link>
-                        </section>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="mt-8">
+                        <MonthSelector
+                            initialMonth={mes}
+                            initialYear={ano}
+                            onChange={(novoMes, novoAno) => {
+                                setMes(novoMes);
+                                setAno(novoAno);
+                            }}
+                        />
                     </div>
-                    <div className="flex flex-shrink-0 flex-row justify-center md:gap-30 gap-10 md:w-full min-w-90">
-                        <section className="flex gap-4 bg-[#ff2200] md:py-8 py-5 px-2 w-40 rounded-sm md:w-1/3">
-                            <Link className="w-full flex justify-center items-center gap-2" href="/despesas">
-                                <div className="flex flex-col">
-                                    <h1 className="text-xl md:text-3xl text-center text-white">Despesas</h1>
-                                    <span className="text-[#961400] md:text-base text-center text-sm">{formatBRL(despesa)}</span>
+
+                    <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                        {/* Dízimos Card */}
+                        <Link href="/dizimos" className="group">
+                            <div className="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-[#008eff] hover:shadow-md transition-all duration-200 h-full flex flex-col justify-between">
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Dízimos</h2>
+                                        <p className="mt-2 text-2xl md:text-3xl font-bold text-gray-900">{formatBRL(dizimo)}</p>
+                                    </div>
+                                    <div className="p-3 bg-blue-50 rounded-xl group-hover:scale-110 transition-transform duration-200">
+                                        <Image alt="Dízimos" src="/dizimo.png" width={32} height={32} />
+                                    </div>
                                 </div>
-                                <Image
-                                    alt="Símbolo financeiro"
-                                    src="/despesa.png"
-                                    width={40}
-                                    height={40}
-                                    className="md:w-1/7 md:ml-4"
-                                >
-                                </Image>
-                            </Link>
-                        </section>
-                        <section className="flex bg-[#00cf40] py-5 px-2 w-40 rounded-sm md:w-1/3">
-                            <Link className="w-full cursor-default flex justify-center items-center gap-4" href="">
-                                <div className="flex flex-col">
-                                    <h1 className="text-xl md:text-3xl text-center text-white">Saldo</h1>
-                                    <span className="text-[#007525] md:text-base text-sm">{formatBRL(saldo)}</span>
+                                <div className="mt-4 flex items-center text-sm text-blue-600 font-medium">
+                                    Ver detalhes
+                                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="9 5l7 7-7 7" />
+                                    </svg>
                                 </div>
-                                <Image
-                                    alt="Símbolo financeiro"
-                                    src="/saldo.png"
-                                    width={40}
-                                    height={40}
-                                    className="md:w-1/7 md:ml-6"
-                                >
-                                </Image>
-                            </Link>
-                        </section>
+                            </div>
+                        </Link>
+
+                        {/* Ofertas Card */}
+                        <Link href="/ofertas" className="group">
+                            <div className="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-[#f5dd02] hover:shadow-md transition-all duration-200 h-full flex flex-col justify-between">
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Ofertas</h2>
+                                        <p className="mt-2 text-2xl md:text-3xl font-bold text-gray-900">{formatBRL(oferta)}</p>
+                                    </div>
+                                    <div className="p-3 bg-yellow-50 rounded-xl group-hover:scale-110 transition-transform duration-200">
+                                        <Image alt="Ofertas" src="/oferta.png" width={32} height={32} />
+                                    </div>
+                                </div>
+                                <div className="mt-4 flex items-center text-sm text-yellow-600 font-medium">
+                                    Ver detalhes
+                                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="9 5l7 7-7 7" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </Link>
+
+                        {/* Despesas Card */}
+                        <Link href="/despesas" className="group">
+                            <div className="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-[#ff2200] hover:shadow-md transition-all duration-200 h-full flex flex-col justify-between">
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Despesas</h2>
+                                        <p className="mt-2 text-2xl md:text-3xl font-bold text-gray-900">{formatBRL(despesa)}</p>
+                                    </div>
+                                    <div className="p-3 bg-red-50 rounded-xl group-hover:scale-110 transition-transform duration-200">
+                                        <Image alt="Despesas" src="/despesa.png" width={32} height={32} />
+                                    </div>
+                                </div>
+                                <div className="mt-4 flex items-center text-sm text-red-600 font-medium">
+                                    Ver detalhes
+                                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="9 5l7 7-7 7" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </Link>
+
+                        {/* Saldo Card */}
+                        <div className="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-[#00cf40] h-full flex flex-col justify-between">
+                            <div className="flex justify-between items-start">
+                                <div>
+                                    <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Saldo Geral</h2>
+                                    <p className="mt-2 text-2xl md:text-3xl font-bold text-[#00cf40]">{formatBRL(saldo)}</p>
+                                </div>
+                                <div className="p-3 bg-green-50 rounded-xl">
+                                    <Image alt="Saldo" src="/saldo.png" width={32} height={32} />
+                                </div>
+                            </div>
+                            <div className="mt-4 text-xs text-gray-400">
+                                Atualizado em tempo real
+                            </div>
+                        </div>
                     </div>
-                    <Link href="/relatorio" className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer mb-10">
-                        Gerar relatório mensal
-                    </Link>
+
+                    <div className="mt-12 flex justify-center">
+                        <Link 
+                            href="/relatorio" 
+                            className="w-full md:w-auto text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 mb-8"
+                        >
+                            Gerar relatório mensal
+                        </Link>
+                    </div>
                 </div>
             </div>
         </>
